@@ -1,0 +1,16 @@
+FROM alpine:latest
+
+LABEL MAINTAINER ant <git@manchestermonkey.co.uk>
+
+ARG TUID=500
+
+RUN apk add ruby shadow && \
+    gem install puppet librarian-puppet -N --no-user-install
+
+RUN useradd user -u $TUID -m
+
+WORKDIR /etc/puppet
+
+ENTRYPOINT ["librarian-puppet"]
+
+CMD ["install"]
